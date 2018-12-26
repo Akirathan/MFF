@@ -1,0 +1,109 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Du 2}
+\author{Pavel Marek}
+\date{}
+
+\maketitle
+
+\section*{1) $\Rightarrow$}
+$f$ je algoritmicky vyčíslitelná $\Rightarrow$ 
+$B = \{\langle x,y \rangle|f(x)=y\}$ je
+částečně rozhodnutelná.
+
+\paragraph{Důkaz}
+Máme turingův stroj $M$, který počítá $f$. Zkonstruujeme $M'$ takový, že
+$L(M')=B$: \\
+
+$M'(x \in \Sigma^*)$:
+\begin{enumerate}
+  \item Pro všechny rozdělení $\langle x', y' \rangle$ z $x$:
+  \begin{enumerate}
+    \item Spusť $M(x')$. Jeho výstup nazvěme $y$.
+    \item Pokud $y = y'$:
+    \begin{enumerate}
+      \item Přijmi $\langle x', y' \rangle$. \emph{Zde totiž platí, že $f(x') = y'$}.
+    \end{enumerate}
+  \end{enumerate}
+  \item Odmítni $x$.
+\end{enumerate}
+
+K bodu 1 poznamenejme, že rozdělení vstupního slova $x$ lze enumerovat například
+tak, že budeme posunovat rozdělovač $x'$ a $y'$ doprava.
+
+
+
+\section*{1) $\Leftarrow$}
+$B=\{\langle x,y \rangle|f(x)=y\}$ je částečně rozhodnutelná $\Rightarrow$ $f$
+je algoritmicky vyčíslitelná.
+
+\paragraph{Důkaz}
+Máme $M$ takový, že $L(M) = B$. Zkonstruujeme $M'$ takový, že $M'$ počítá $f$:\\
+
+$M'(x \in \Sigma^*)$:
+\begin{enumerate}
+  \item $y = \epsilon$.
+  \item $L$ je prázdný seznam procesů. \emph{K procesům si budeme přidávat
+  ještě část jejich vstupu}.
+  \item Dokud žádný proces v $L$ nepřijal:
+  \begin{enumerate}
+    \item Přidej proces $\langle x,y \rangle \in B$ společně s $y$ do $L$.
+    \emph{Tento proces lze jednoduše implementovat tak, že spustíme
+    $M(\langle x,y \rangle )$}.
+    \item $y =$ \texttt{next}$(y)$.
+  \end{enumerate}
+  \item Vypiš $y$. \emph{Zde už víme, že nějaký proces z $L$ přijal a $y$ je
+  část jeho vstupu. Navíc máme jistotu, že $\langle x,y \rangle \in B$ a $f(x) = y$}.
+\end{enumerate}
+
+
+\section*{2.1)}
+\texttt{HASPRIME} $= \{\langle M \rangle |
+\exists p(p$ prvočíslo a $\langle p \rangle \in L(M)\}$.
+Sestrojíme $M'$ takový, že $L(M') =$ \texttt{HASPRIME} :\\
+
+$M'(x \in \Sigma^*)$:
+\begin{enumerate}
+  \item Ověř, že $x$ je kód nějakého turingova stroje a označ
+  $\langle M \rangle = x$.
+  \item Pokud není, odmítni.
+  \item Pro všechny $p$ prvočísla:
+  \begin{enumerate}
+    \item Spusť $M(\langle p \rangle)$. \emph{Nevadí, když výpočet nedoběhne.}
+    \item Pokud přijme, přijmi.
+    \item Jinak odmítni.
+  \end{enumerate}
+\end{enumerate}
+
+Ještě pro krok 3 poznamenejme, že prvočísla jsou rozhodnutelný jazyk.
+Tedy lze pro ně sestrojit enumerátor, který je vypisuje v lexikografickém pořadí.
+
+\section*{2.2)}
+\texttt{PSE} $= \{\langle M,q \rangle | \exists x ( M$ použije při výpočtu $x$ stav $q)$.
+Sestrojme turingův stroj $M'$ tak, že $L(M') = $ \texttt{PSE}: \\
+
+$M'(x \in \Sigma^*)$:
+\begin{enumerate}
+  \item Ověř, že $x$ je syntakticky $\langle M,q \rangle$ a přiřaď
+  $\langle M,q \rangle = x$.
+  \item Modifikujeme $M$:
+  \begin{enumerate}
+    \item Změníme $q$ na \textbf{jediný} přijímající stav.
+    \item Smažeme všechny přechody vedoucí ze stavu $q$.
+  \end{enumerate}
+  \item Pro všechny $y \in \Sigma^*$: \emph{Zvolíme libovolné uspořádání a
+  enumerujeme všechny slova v jazyce}.
+  \begin{enumerate}
+    \item Spustíme $M(y)$. \emph{Nevadí, když výpočet nedoběhne}.
+    \item Jestli přijme, přijmi.
+    \item Jinak odmítni.
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}

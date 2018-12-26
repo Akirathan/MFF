@@ -1,0 +1,143 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\newcommand{\TIME}[1]{\mathrm{TIME}(#1)}
+\newcommand{\NTIME}[1]{\mathrm{NTIME}(#1)}
+\newcommand{\SPACE}[1]{\mathrm{SPACE}(#1)}
+\newcommand{\NSPACE}[1]{\mathrm{NSPACE}(#1)}
+
+\theoremstyle{plain}
+\newtheorem{veta}{Věta}
+\newtheorem{lemma}[veta]{Lemma}
+\newtheorem{tvrz}[veta]{Tvrzení}
+
+\theoremstyle{plain}
+\newtheorem{definice}{Definice}
+
+\theoremstyle{remark}
+\newtheorem*{dusl}{Důsledek}
+\newtheorem*{pozn}{Poznámka}
+\newtheorem*{prikl}{Příklad}
+
+\newenvironment{dukaz}{
+  \par\medskip\noindent
+  \textit{Důkaz}.
+}{
+\newline
+\rightline{$\square$}  % nebo \SquareCastShadowBottomRight z balíčku bbding
+}
+
+\begin{document}
+
+\begin{itemize}
+  \item Jazyk $L$ je \emph{rozhodnutelný}, pokud pro něj existuje turingův
+  stroj $T$ takový, že $L(T) = L$ a navíc se pro každý vstup zastaví.
+
+  \item Jazyk $L$ je \emph{částečné rozhodnutelný}, pokud existuje turingův
+  stroj $T$, že $L(T) = L$.
+
+  \item Ne všechny jazyky jsou částečně rozhodnutelné.
+
+  \item \textbf{Postova věta:} Jazyk $L$ je rozhodnutelný $\Leftrightarrow$
+  $L$ i $\overline{L}$ jsou částečně rozhodnutelné.
+
+  \item $A \leq_m B$ a zároveň $B$ je částečně rozhodnutelný $\Rightarrow$
+  $A$ je částečně rozhodnutelný.
+
+  \item $A$, $B$ rozhodnutelné jazyky, potom $A \leq_m B$.
+
+  \item $A$ je částečně rozhodnutelný jazyk a $A \leq_m \overline{A}$,
+  pak $A$ je rozhodnutelný jazyk.
+
+  \item Pokud je $A$ rozhodnutelný, pak je i částečně rozhodnutelný.
+
+  \item $HALT := \{\langle M, x \rangle \mid M(x) \downarrow \}$.
+  \begin{itemize}
+    \item Pokud $M(x)$ zastaví, nemusí přijmout.
+  \end{itemize}
+
+  \item $L_u := \{\langle M, x \rangle \mid x \in L(M)\}$.
+
+  \item $HALT$ a $L_u$ jsou částečně rozhodnutelné, ale nejsou rozhodnutelné.
+  \begin{itemize}
+    \item $\overline{L_u}$ není částečně rozhodnutelný.
+  \end{itemize}
+
+  \item Jazyk $DIAG := \{\langle M \rangle \mid \langle M \rangle \notin L(M)\}$
+  není částečně rozhodnutelný.
+
+  \item Jazyk $EMPTY := \{\langle M \rangle \mid L(M) = \emptyset\}$ není
+  částečně rozhodnutelný.
+
+  \item Jak o jazyku dokázat, že není rozhodnutelný?
+  \begin{itemize}
+    \item $L$ je nerozhodnutelný (ale je částečně rozhodnutelný), pokud
+    $L_u \leq_m L$.
+
+    \item $L$ není částečně rozhodnutelný, pokud $DIAG \leq_m L$. Nebo pokud
+    $EMPTY \leq_m L$.
+  \end{itemize}
+
+  \item \emph{Totálně vyčíslitelná funkce} je turingovsky vyčíslitelná
+  turingovským strojem, který se zastaví pro každý vstup.
+\end{itemize}
+
+\section{Složitost}
+\subsection{Vztahy mezi třídami}
+
+\begin{itemize}
+  \item \textbf{Big-O notation} - \href{https://en.wikipedia.org/wiki/Big_O_notation#Family_of_Bachmann%E2%80%93Landau_notations}{Wikipedia}
+  \item $\TIME{f(n)} \subseteq \SPACE{f(n)}$. \emph{Triviálně}.
+  \item (\texttt{A}) $\NTIME{f(n)} \subseteq \NSPACE{f(n)}$. \emph{Triviálně}.
+  \item $\NTIME{f(n)} \subseteq \SPACE{f(n)}$. \emph{Každá větev výpočtu se vejde
+  do $f(n)$}.
+
+  \item (\texttt{B}) $\TIME{f(n)} \subseteq \NTIME{f(n)} \subseteq \SPACE{f(n)}
+  \subseteq \NSPACE{f(n)}$. \emph{Vychází z předchozích}.
+
+  \item Nedeterministický turingův stroj $M$, pracující v prostoru $f(n)$ má
+  nanejvýš $2^{C_M f(n)}$ konfigurací. Konfigurace je:
+  \begin{itemize}[noitemsep]
+    \item Slovo na vstupní pásce
+    \item Poloha hlavy na všech páskách
+    \item Stav
+  \end{itemize}
+
+  \item (\texttt{C}) $f(n)$ taková, že $f(n) \geq \log_2n$, pak pro každý jazyk
+  $L$ platí $L \in \NSPACE{f(n)} \Rightarrow (\exists C_L \in \mathbb{N}) (L \in
+  \TIME{2^{C_L f(n)})}$.
+  \begin{itemize}
+    \item (\texttt{D}) $f(n) = o(g(n))$, $\NSPACE{f(n)} \subseteq
+    \TIME{2^{g(n)}}$.
+  \end{itemize}
+
+  \item (\texttt{E}) \textbf{Savičova věta} $\NSPACE{f(n)} \subseteq
+  \SPACE{f^2(n)}$.
+
+  \item \textbf{Věta o prostorové deterministické hierarchii} Pro každou $f$
+  prostorově konstruovatelnou existuje jazyk $A$, který je rozhodnutelný v
+  prostoru $O(f(n))$, ale není rozhodnutelný v prostoru $o(f(n))$.
+  \begin{itemize}
+    \item (\texttt{F}) $f(n) = o(g(n))$, $g$ je prostorově konstruovatelná.
+    Potom $\SPACE{f(n)} \subsetneq \SPACE{g(n)}$.
+  \end{itemize}
+
+  \item \textbf{Věta o časové deterministické hierarchii} Pro každou $f$
+  časově konstruovatelnou existuje jazyk $A$, který je rozhodnutelný v čase
+  $O(f(n))$, ale ne v čase $o(f(n)/\log f(n))$
+  \begin{itemize}
+    \item (\texttt{G}) $f(n) = o(\frac{g(n)}{\log g(n)})$, $g$ je časově
+    konstruovatelná. Potom $\TIME{f(n)} \subsetneq \TIME{g(n)}$.
+  \end{itemize}
+\end{itemize}
+
+\end{document}

@@ -1,0 +1,78 @@
+
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+
+\begin{document}
+
+\title{Du 1}
+\author{Pavel Marek}
+\date{}
+
+\maketitle
+
+\section*{1)}
+Za každou instrukci typu $ \delta(q_1, x) = (q_2, y, L) $ přidáme nový stav
+$q_1$ a navíc tuto instrukci nahradíme dvěmi následujícími instrukcemi:
+\begin{align*}
+  \delta(q_1, x) &= (q_{1}', y, N)\\
+  \delta(q_{1}', y) &= (q_2, y, L)
+\end{align*}
+
+\section*{2)}
+
+Pro řešení předpokládáme, že jednopáskový, oboustraně nekonečný turingův
+stroj lze převést na jednostranně nekonečný. Navíc v tomto jednostranně
+nekonečném turingově stroji předpokládáme vstupní slovo oboustraně ohraničené
+zarážkami.
+
+\paragraph{Myšlenka řešení}
+Ukážeme za jakou posloupnost instrukcí resp. program zaměníme každou instrukci,
+která pohne hlavou doleva.
+
+Myšlenka je taková, že vytvoříme dvě zarážky - jednu pod hlavou a druhou na
+začátku vstupního slova. Levou zarážku budeme posunovat do prava, dokud mezi
+sebou zarážky nebudou mít právě jedno políčko. Jakmile mezi sebou budou mít
+zarážky právě jedno políčko, přepíšeme nejprve pravou zarážku na původní
+znak, restartujeme hlavu, a poté přepíšeme levou zarážku na původní znak.
+Tím de facto posuneme hlavu o jedno políčko doleva.
+
+Zarážky vždy přepisujeme na původní znaky tak, abychom neměnili symboly ve
+vstupním slově. Schématicky vypadá posunutí zarážky $\Phi_x$ následovně:
+$$ [\Phi_x, z] \rightarrow [x, \Phi_z] $$
+
+Poznamenejme ještě, že tímto podprogramem se dají nahradit instrukce, které
+hýbou hlavou doleva. Instrukce, které hlavu nechávají na místě nahradíme
+podobným podprogramem, s tím rozdílem, že levou zarážku budeme posunovat tak
+dlouho, než se zarážky dostanou vedle sebe.
+
+% Ještě si zbývá rozmyslet krají případy.
+
+\paragraph{Detailnější popis řešení}
+Každou instrukci typu $\delta(q_1, x) = (q_2, y, L)$ nahradíme následujícím
+podprogramem:
+\begin{enumerate}
+  \item Vytvoříme zarážky:
+  \begin{enumerate}
+    \item Přepíšeme znak pod hlavou na $\Phi_y$
+    \item Napíšeme zarážku na začátek vstupního slova.
+  \end{enumerate}
+  \item V cyklu:
+  \begin{enumerate}
+    \item Zkontrolujeme, jestli zarážky nejsou od sebe vzdálené právě 1 políčko,
+    což schématicky odpovídá stavu $[\Phi_x, z, \Phi_y]$.
+    \begin{enumerate}
+      \item Pokud ne, tak restartujeme hlavu, a posuneme levou zarážku doprava.
+      \item Pokud ano, tak:
+      \begin{enumerate}
+        \item Přepíšeme pravou zarážku $\Phi_y$ na $y$ a restartujeme hlavu.
+        \item Přepíšeme levou zarážku $\Phi_x$ na $x$, pohneme hlavou doprava,
+        a změníme stav na $q_2$. Tím jsme skončili.
+      \end{enumerate}
+    \end{enumerate}
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}

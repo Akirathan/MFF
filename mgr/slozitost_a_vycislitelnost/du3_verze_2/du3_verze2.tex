@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\begin{document}
+
+\title{Du 3 - verze 2}
+\author{Pavel Marek}
+\date{}
+
+\maketitle
+
+\section*{1)}
+Rozhodněte, zda jazyk $S = \{\langle M_1, M_2 \rangle \mid
+L(M_1) \cap L(M_2) = \emptyset\}$ je rozhodnutelný.
+
+\section*{2.1)}
+Ukažte, že $L_u \leq_m S$, kde $S=\{\langle M \rangle \mid
+(\forall x \in \Sigma^*)
+[x \in L(M) \Leftrightarrow x^R \in L(M)]\}$.\\
+
+Chceme převést $\langle M, x \rangle \rightarrow \langle M' \rangle$.
+Výpočet $M'$ bude vypadat následovně: \\
+$M'(y \in \Sigma^*)$:
+\begin{enumerate}
+  \item Pokud $y = a$, tak přijmi. \emph{$a$ je předem zvolené konstantní
+  slovo}.
+  \item Spusť $M(x)$. Pokud odmítne, odmítni. \emph{Zde nám nevadí, pokud
+  výpočet $M(x)$ nedoběhne.}
+  \item Pokud $y = a^R$, tak přijmi.
+  \item Odmítni.
+\end{enumerate}
+
+Všimněme si, že pokud $x \in L(M)$, tak $L(M') = \{a, a^R\}$. A pokud
+$x \notin L(M)$, tak $L(M') = \{a\}$. Tím pádem je splněna podmínka
+$x \in L(M) \Leftrightarrow ((\forall x \in \Sigma^*)
+(x \in M' \Leftrightarrow x^R \in M'))$.
+
+
+\section*{2.2)}
+Ukažte, že $L_u \leq_m \overline{S}$, kde $\overline{S} = \{\langle M \rangle
+\mid (\forall x \in \Sigma^*) [x \in L(M) \Leftrightarrow x^R \notin L(M)]\}$.\\
+
+Chceme převést $\langle M, x \rangle \rightarrow \langle M' \rangle$. 
+Výpočet $M'$ bude vypadat následovně: \\
+$M'(y \in \Sigma^*)$:
+\begin{enumerate}
+  \item Pokud $y = a$, přijmi.
+  \item Pokud $y = a^R$, přijmi. \textcolor{red}{První dva kroky jsou zde
+  zbytečné. Prázdný jazyk je také $\overline{S}$}.
+  \item Spusť $M(x)$. Pokud odmítne, přijmi.
+  \item Pokud $y = b$, přijmi. \emph{$b$ je předem zvolené konstantní slovo.}
+  \item Odmítni.
+\end{enumerate}
+
+Všimněme si, že pokud $x \in L(M)$, tak $L(M') = \{a, a^R, b\}$. A pokud
+$x \notin L(M)$, tak $L(M') = \{a, a^R\}$. Tím pádem je splněna podmínka
+$x \in L(M) \Leftrightarrow ((\forall x \in \Sigma^*)
+(x \in M' \Leftrightarrow x^R \notin M'))$.
+
+
+\end{document}

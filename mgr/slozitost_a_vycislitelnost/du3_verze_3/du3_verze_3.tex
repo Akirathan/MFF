@@ -1,0 +1,41 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\begin{document}
+
+\title{Du 3 - verze 3}
+\author{Pavel Marek}
+\date{}
+
+\maketitle
+
+\section*{1)}
+Rozhodněte, zda jazyk $S = \{\langle M_1, M_2 \rangle \mid
+L(M_1) \cap L(M_2) = \emptyset\}$ je rozhodnutelný.
+
+\paragraph{Nerozhodnutelnost $S$}
+Jazyk $S$ není ani částečně rozhodnutelný. To ukážeme například pomocí
+$DIAG \leq_m S$.
+
+Chceme převést $\langle M \rangle \rightarrow \langle M_1, M_2 \rangle$.
+Výpočet $M_1$ i $M_2$ bude vypadat následovně: \\
+$M_i(y \in \Sigma^*)$:
+\begin{enumerate}
+  \item Spusť $M(\langle M \rangle)$. Pokud odmítne, odmítni.
+  \item Pokud $y = a$, přijmi. \emph{$a$ je jednoznakový řetězec}.
+  \item Odmítni.
+\end{enumerate}
+
+Všimněme si, že pokud $\langle M \rangle \notin L(M)$, tak se $M_1$, $M_2$
+buď zacyklí v kroku 1, nebo v něm odmítne. Tudíž $L(M_1) = \emptyset = L(M_2)$.
+
+Pokud $\langle M \rangle \in L(M)$, tak $L(M_1) = \{a\} = L(M_2)$.\\
+
+Je splněna podmínka pro převod, tj.:
+$$\langle M \rangle \notin L(M) \Leftrightarrow L(M_1) \cap L(M_2) = \emptyset$$
+
+\end{document}

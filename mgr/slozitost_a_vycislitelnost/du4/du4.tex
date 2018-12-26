@@ -1,0 +1,97 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{xcolor}
+\usepackage{amssymb}
+
+\newcommand{\TIME}[1]{\mathrm{TIME}(#1)}
+\newcommand{\NTIME}[1]{\mathrm{NTIME}(#1)}
+\newcommand{\SPACE}[1]{\mathrm{SPACE}(#1)}
+\newcommand{\NSPACE}[1]{\mathrm{NSPACE}(#1)}
+
+\author{Pavel Marek}
+\title{DÚ 4}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section*{Použitá tvrzení z přednášky}
+Zde opíšeme a očíslujeme tvrzení z přednášek, které budeme dále používat.
+
+\paragraph{(B)}
+$\TIME{f(n)} \subseteq \NTIME{f(n)} \subseteq \SPACE{f(n)} \subseteq
+\NSPACE{f(n)}$.
+
+\paragraph{(D)}
+$f(n) = o(g(n))$, $\NSPACE{f(n)} \subseteq \TIME{2^{g(n)}}$.
+
+\paragraph{(E)}
+$\NSPACE{f(n)} \subseteq \SPACE{f^2(n)}$.
+
+\paragraph{(F)}
+$f(n) = o(g(n))$, $g$ je prostorově konstruovatelná.
+Potom $\SPACE{f(n)} \subsetneq \SPACE{g(n)}$.
+
+\paragraph{(G)}
+$f(n) = o(\frac{g(n)}{\log g(n)})$, $g$ je časově konstruovatelná.
+Potom $\TIME{f(n)} \subsetneq \TIME{g(n)}$.
+
+
+\section*{1)} 
+\emph{Porovnejte $\TIME{2^n}$ a $\NSPACE{\sqrt{n}}$.}\\
+
+Z (D) je ihned vidět, že $\NSPACE{\sqrt{n}} \subseteq \TIME{2^n}$,
+protože $\sqrt{n} = o(n)$.
+
+Pro ostrou inkluzi můžeme postupovat například takto: 
+\begin{equation} \label{1}
+  \NSPACE{\sqrt{n}} \subseteq \TIME{2^{n^{3/4}}}
+\end{equation}
+\begin{equation} \label{2}
+  \TIME{2^{n^{3/4}}} \subsetneq \TIME{2^n}
+\end{equation}
+kde rovnice \ref{1} plyne z použití (D), protože $\sqrt{n} = o(n^{3/4})$.
+A rovnice \ref{2} plyne z použití (G), protože
+$$2^{n^{3/4}} = o(\frac{2^n}{\log 2^n}) = o(\frac{2^n}{n})$$
+a toto platí, protože
+$$\lim_{n \rightarrow \infty} \frac{n 2^{n^{3/4}}}{2^n} = 0$$ \\
+
+Tedy platí $\NSPACE{\sqrt{n}} \subsetneq \TIME{2^n}$.
+
+
+\section*{2)}
+\emph{Porovnejte $\NSPACE{(\log n)^3}$ a $\SPACE{n}$}.\\
+
+Postupujme následovně:
+\begin{equation} \label{3}
+  \NSPACE{(\log n)^3} \subseteq \SPACE{(\log n)^6}
+\end{equation}
+\begin{equation} \label{4}
+  \SPACE{(\log n)^6} \subsetneq \SPACE{n}
+\end{equation}
+Kde rovnice \ref{3} vychází z (E) a rovnice \ref{4} vychází z (F), protože
+$(\log n)^6 = o(n)$ a toto platí protože
+$\lim_{n \rightarrow \infty} \frac{(\log n)^6}{n} = 0$.
+A tedy platí $\NSPACE{(\log n)^3} \subsetneq \SPACE{n}$.
+
+
+\section*{3)}
+\emph{Porovnejte $\NTIME{n^3}$ a $\SPACE{n^6}$}.\\
+
+Postupujme následovně:
+\begin{equation} \label{5}
+  \NTIME{n^3} \subseteq \SPACE{n^3}
+\end{equation}
+\begin{equation} \label{6}
+  \SPACE{n^3} \subsetneq \SPACE{n^6}
+\end{equation}
+Kde rovnice \ref{5} vychází z (B) a rovnice \ref{6} vychází z (F), protože
+$n^3 = o(n^6)$. Tedy platí $\NTIME{n^3} \subsetneq \SPACE{n^6}$.
+
+
+\end{document}

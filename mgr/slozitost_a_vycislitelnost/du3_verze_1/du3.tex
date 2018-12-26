@@ -1,0 +1,113 @@
+\documentclass{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[czech]{babel}
+\usepackage{amsmath}
+\usepackage{xcolor}
+
+\begin{document}
+
+\title{Du 3}
+\author{Pavel Marek}
+\date{}
+
+\maketitle
+
+\section*{1)}
+Rozhodněte, zda jazyk $S = \{\langle M_1, M_2 \rangle \mid
+L(M_1) \cap L(M_2) = \emptyset\}$ je rozhodnutelný. \\
+
+Nerozhodnutelnost jazyka $S$ ukážeme tak, že ukážeme $L_u \leq_m S$.
+\textcolor{green}{Pravděpodobně bude lepší ukázat převoditelnost 
+$HALT \leq_m S$}.
+To budeme ukazovat podobně, jako v příkladu $2.1$ - tedy zkonstruujeme
+turingův stroj $F$, který převádí $L_u$ na $S$.
+
+Výpočet $F(\langle M, x \rangle)$:
+\begin{enumerate}
+  \item Spusť $M(x)$. \textcolor{red}{$M(x)$ se nemusí zastavit, ale $F$ se
+  musí zastavit vždy (to vyplývá z definice totálně vyčíslitelné funkce).}
+  \item Pokud přijme, tak vygeneruj kód $\langle M_1, M_2 \rangle$ tak, aby
+  $L(M_1) = \{a\}$ a $L(M_2) = \{b\}$.
+  \item Pokud odmítne, tak vygeneruj kód $\langle M_1, M_2 \rangle$ tak, aby
+  $L(M_1) = \{a\}$ a $L(M_2) = \{a\}$.\\
+\end{enumerate}
+
+Dle Postovy věty může být pouze jeden z $S$, $\overline{S}$ částečně
+rozhodnutelný. Intuitivně vidíme, že to bude $\overline{S} :=
+\{\langle M_1, M_2 \rangle \mid L(M_1) \cap L(M_2) \neq \emptyset\}$.
+Zkonstruujme pro něj turingův stroj $M$ takový, že $L(M) = \overline{S}$.
+Jeho výpočet bude vypadat:
+
+$M(\langle M_1, M_2 \rangle)$:
+\begin{enumerate}
+  \item $L$ je prázdný seznam dvojic procesů.
+  \item Dokud nějaká dvojice procesů z $L$ nepřijala:
+  \begin{enumerate}
+    \item Do $L$ přidej dvojici $(M_1(x), M_2(x))$. \textcolor{red}{Bylo
+    by vhodné zmínit, odkud se bere $x$ a navíc také zmínit, že ty procesy
+    z $L$ stále běží.}
+  \end{enumerate}
+  \item Přijmi.
+\end{enumerate}
+
+
+\section*{2.1)}
+Ukažte, že $L_u \leq_m S$, kde $S=\{\langle M \rangle \mid
+(\forall x \in \Sigma^*)
+[x \in L(M) \Leftrightarrow x^R \in L(M)]\}$.\\
+
+Sestrojíme turingův stroj $F$, který počítá totálně vyčíslitelnou funkci $f$,
+pro kterou platí $(\forall l \in \Sigma^*) (l \in L_u \Leftrightarrow f(l) \in
+S) \& (l \notin L_u \Leftrightarrow f(l) \notin S)$.
+
+Výpočet $F$ vypadá následovně:\\
+$ F(\langle M, x \rangle):$
+\begin{enumerate}
+  \item Spusť $M(x)$. \textcolor{red}{Nemusí doběhnout}.
+  \begin{enumerate}
+    \item Pokud přijme, vygeneruj kód nedeterministického turingova stroje $M'$,
+    takového, že $L(M') = \{x, x^R\}$. Pro $x=\alpha_1, \alpha_2, \ldots,
+    \alpha_n$ toho docílíme tak, že $M'$ bude mít stavy $q_0, q_1, \ldots, q_n$
+    pro čtení $x$ a stavy $q_0^R, q_1^R, \ldots, q_n^R$ pro čtení $x^R$ s tím, že
+    počáteční stavy jsou $\{q_0^R, q_0\}$. Přechodová funkce bude tvaru:
+    $$\delta(q_i, \alpha_i) = (q_{i+1}, \lambda, R)$$
+    $$\delta(q_i^R, \alpha_i) = (q_{i+1}^R, \lambda, R)$$
+    Koncevé stavy budou $\{q_n, q_n^R\}$.
+
+    Takto zkonstruovaný nedeterministický turingův stroj $M'$ uhádne jestli čte
+    $x$ nebo $x^R$ a přijímá právě $x$ a $x^R$ a tedy $\langle M' \rangle \in S$.
+
+    \item Pokud odmítne, vygeneruj kód (deterministického) turingova stroje
+    $M'$, $L(M') = \{x\}$. Tento turingův stroj budeme generovat podobně jako
+    v předchozím bodě, s tím rozdílem, že budeme mít pouze $n$ stavů pro čtení
+    $x$ a budeme mít pouze jediný počáteční a přijímající stav. A tedy
+    $\langle M' \rangle \notin S$.
+  \end{enumerate}
+  
+\end{enumerate}
+
+
+\section*{2.2)}
+Ukažte, že $L_u \leq_m \overline{S}$, kde $\overline{S} = \{\langle M \rangle
+\mid (\forall x \in \Sigma^*) [x \in L(M) \Leftrightarrow x^R \notin L(M)]\}$.\\
+
+Podobně jako v $2.1$ sestrojíme turingův stroj $F$, jehož výpočet bude vypadat
+následovně: \\
+$ F(\langle M, x \rangle):$
+\begin{enumerate}
+  \item Spusť $M(x)$. \textcolor{red}{Nemusí doběhnout}.
+  \begin{enumerate}
+    \item Pokud přijme, vygeneruj kód turingova stroje $M'$, pro který
+    $L(M') = \{x\}$. Tedy pokud $\langle M, x \rangle \in L_u$, potom
+    $\langle M' \rangle \in \overline{S}$.
+
+    \item Pokud odmítne, vygeneruj kód turingova stroje $M'$, pro který
+    $L(M') = \{x, x^R\}$ (podobně jako v $2.1$). Tedy pokud 
+    $\langle M, x \rangle \notin L_u$, potom 
+    $\langle M' \rangle \notin \overline{S}$.
+  \end{enumerate}
+\end{enumerate}
+
+
+\end{document}
